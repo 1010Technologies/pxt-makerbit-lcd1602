@@ -1,17 +1,19 @@
 {
-  "name": "MakerBit-LCD1602",
-  "version": "0.0.2",
-  "description": "MakeCode extension for I2C LCD 1602 displays",
-  "license": "MIT",
-  "dependencies": {
-    "core": "*"
-  },
-  "files": [
-    "namespace.ts",
-    "README.md",
-    "lcd.ts",
-    "_locales/de/MakerBit-LCD1602-strings.json"
-  ],
-  "testFiles": ["test.ts"],
-  "public": true
+    "name": "MakerBit-LCD1602",
+    "version": "0.0.3",
+    "description": "MakeCode extension for I2C LCD 1602 displays",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "namespace.ts",
+        "README.md",
+        "lcd.ts",
+        "_locales/de/MakerBit-LCD1602-strings.json"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "public": true
 }
