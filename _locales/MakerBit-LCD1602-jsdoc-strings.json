@@ -1,0 +1,19 @@
+{
+  "makerbit": "MakerBit",
+  "makerbit.clearLcd": "Clears the LCD completely.",
+  "makerbit.connectLcd": "Connects to the LCD at a given I2C address.\nThe addresses 39 (PCF8574) or 63 (PCF8574A) seem to be widely used.",
+  "makerbit.connectLcd|param|i2cAddress": "I2C address of LCD in the range from 0 to 127, eg: 39",
+  "makerbit.isLcdConnected": "Returns true if a LCD is connected. False otherwise.",
+  "makerbit.position": "Turns a LCD position into a number.",
+  "makerbit.position|param|position": "the LCD position, eg: LcdPosition.P0",
+  "makerbit.setLcdBacklight": "Enables or disables the backlight of the LCD.",
+  "makerbit.setLcdBacklight|param|backlight": "new state of backlight, eg: LcdBacklight.Off",
+  "makerbit.showNumberOnLcd": "Displays a number on the LCD in the given position range.\nIf the number needs more space than the range provides, it will be cropped.\nIf there is space left, it will be filled with whitespaces.",
+  "makerbit.showNumberOnLcd|param|endPosition": "the end position on the LCD, [0 - 31]",
+  "makerbit.showNumberOnLcd|param|startPosition": "the start position on the LCD, [0 - 31]",
+  "makerbit.showNumberOnLcd|param|value": "the number to show",
+  "makerbit.showStringOnLcd": "Displays a text on the LCD in the given position range.\nThe text will be cropped if it is longer than the provided range.\nIf there is space left, it will be filled with whitespaces.",
+  "makerbit.showStringOnLcd|param|endPosition": "the end position on the LCD, [0 - 31]",
+  "makerbit.showStringOnLcd|param|startPosition": "the start position on the LCD, [0 - 31]",
+  "makerbit.showStringOnLcd|param|text": "the text to show, eg: \"MakerBit\""
+}
