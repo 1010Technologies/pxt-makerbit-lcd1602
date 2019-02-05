@@ -84,10 +84,10 @@ namespace makerbit {
   const LcdColumns = 16;
 
   interface LcdState {
-    i2cAddress: number;
+    i2cAddress: uint8;
     backlight: LcdBacklight;
     characters: Buffer;
-    cursor: number;
+    cursor: uint8;
   }
 
   let lcdState: LcdState = undefined;
@@ -270,7 +270,7 @@ namespace makerbit {
       i2cAddress: i2cAddress,
       backlight: LcdBacklight.On,
       characters: pins.createBuffer(LcdRows * LcdColumns),
-      cursor: -1
+      cursor: LcdRows * LcdColumns + 1
     };
 
     // Wait 50ms before sending first command to device after being powered on
