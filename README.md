@@ -17,7 +17,7 @@ http://makerbit.com/
 ## LCD
 
 This extension supports printing text and numbers on an I2C LCD 1602.
-Displays with I2C address 39 or 63 will work automatically. Use connectLCD to connect to a differenct I2C address.
+Displays with I2C address 39 or 63 will work automatically. Use connectLCD to explicitly connect to a different I2C address.
 
 ### LCD Example
 
