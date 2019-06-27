@@ -146,7 +146,8 @@ namespace makerbit {
    */
   //% subcategory="LCD"
   //% blockId="makerbit_lcd_show_string"
-  //% block="show LCD string %text| from %startPosition=makerbit_lcd_position | to %endPosition=makerbit_lcd_position"
+  //% block="show %text on LCD | from %startPosition=makerbit_lcd_position | to %endPosition=makerbit_lcd_position"
+  //% text.shadowOptions.toString=true
   //% weight=90
   export function showStringOnLcd(
     text: string,
@@ -192,26 +193,6 @@ namespace makerbit {
       sendData(character);
       lcdState.cursor = position + 1;
     }
-  }
-
-  /**
-   * Displays a number on the LCD in the given position range.
-   * If the number needs more space than the range provides, it will be cropped.
-   * If there is space left, it will be filled with whitespaces.
-   * @param value the number to show
-   * @param startPosition the start position on the LCD, [0 - 31]
-   * @param endPosition the end position on the LCD, [0 - 31]
-   */
-  //% subcategory="LCD"
-  //% blockId="makerbit_lcd_show_number"
-  //% block="show LCD number %value| from %startPosition=makerbit_lcd_position | to %endPosition=makerbit_lcd_position"
-  //% weight=89
-  export function showNumberOnLcd(
-    value: number,
-    startPosition: number,
-    endPosition: number
-  ): void {
-    showStringOnLcd(value.toString(), startPosition, endPosition);
   }
 
   /**
