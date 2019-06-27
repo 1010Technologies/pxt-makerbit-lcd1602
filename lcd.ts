@@ -132,7 +132,8 @@ namespace makerbit {
 
   // Set cursor
   function setCursor(line: number, column: number) {
-    sendCommand((line === 0 ? 0x80 : 0xc0) + column);
+    const offsets = [0x00, 0x40, 0x14, 0x54];
+    sendCommand(0x80 | (offsets[line] + column));
   }
 
   /**
@@ -215,7 +216,7 @@ namespace makerbit {
 
   /**
    * Turns a LCD position into a number.
-   * @param position the LCD position, eg: LcdPosition.P0
+   * @param pos the LCD position, eg: LcdPosition.P0
    */
   //% subcategory="LCD"
   //% blockId=makerbit_lcd_position
@@ -223,8 +224,8 @@ namespace makerbit {
   //% position.fieldEditor="gridpicker"
   //% position.fieldOptions.columns=16
   //% blockHidden=true
-  export function position(position: LcdPosition): number {
-    return position;
+  export function position(pos: LcdPosition): number {
+    return pos;
   }
 
   /**
@@ -234,7 +235,7 @@ namespace makerbit {
   //% blockId="makerbit_lcd_clear" block="clear LCD"
   //% weight=80
   export function clearLcd(): void {
-    showStringOnLcd("", 0, 31);
+    showStringOnLcd("", 0, LcdRows * LcdColumns - 1);
   }
 
   /**
