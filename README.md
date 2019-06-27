@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/1010Technologies/pxt-makerbit-lcd1602.svg?branch=master)](https://travis-ci.org/1010Technologies/pxt-makerbit-lcd1602)
 
-MakeCode extension for I2C LCD 1602 displays.
+MakeCode extension for I2C LCD 1602 and 2004 displays.
 
 ## MakerBit Board
 
@@ -23,26 +23,25 @@ Displays with I2C address 39 or 63 will work automatically. Use connectLCD to ex
 
 ```blocks
 makerbit.setLcdBacklight(LcdBacklight.Off)
-makerbit.showStringOnLcd("MakerBit", 0, 9)
-makerbit.showNumberOnLcd(42, 16, 18)
+makerbit.showStringOnLcd1602("MakerBit", 0, 9)
 basic.pause(2000)
 makerbit.clearLcd()
 ```
 
-### MakerBit showStringOnLcd
+### MakerBit showStringOnLcd1602
 
-Displays a text on the LCD in the given position range. The text will be cropped if it is longer than the provided range. If there is space left, it will be filled with whitespaces.
+Displays a text on a LCD1602 in the given position range. The text will be cropped if it is longer than the provided range. If there is space left, it will be filled with whitespaces.
 
 ```sig
-makerbit.showStringOnLcd("Hello world", 0, 5)
+makerbit.showStringOnLcd1602("Hello world", 0, 15)
 ```
 
-### MakerBit showNumberOnLcd
+### MakerBit showStringOnLcd2004
 
-Displays a number on the LCD in the given position range. The text will be cropped if it is longer than the provided range. If there is space left, it will be filled with whitespaces.
+Displays a text on a LCD2004 in the given position range. The text will be cropped if it is longer than the provided range. If there is space left, it will be filled with whitespaces.
 
 ```sig
-makerbit.showNumberOnLcd(42, 16, 18)
+makerbit.showStringOnLcd2004("Hello world", 40, 59)
 ```
 
 ### MakerBit clearLcd
