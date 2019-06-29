@@ -16,8 +16,10 @@ http://makerbit.com/
 
 ## LCD
 
-This extension supports printing text and numbers on an I2C LCD 1602.
+This extension supports printing text and numbers on either an I2C LCD 1602 (2 x 16 characters) or an I2C LCD 2004 (4 x 40 characters) display.
 Displays with I2C address 39 or 63 will work automatically. Use connectLCD to explicitly connect to a different I2C address.
+
+![LCD1602](https://github.com/1010Technologies/pxt-makerbit-lcd1602/raw/master/icon.png "LCD1602")
 
 ### LCD Example
 

@@ -1,4 +1,4 @@
-// MakerBit blocks supporting an I2C LCD 1602
+// MakerBit blocks supporting both an I2C LCD 1602 or 2004 display
 
 const enum LcdPosition1602 {
   //% block="0"
