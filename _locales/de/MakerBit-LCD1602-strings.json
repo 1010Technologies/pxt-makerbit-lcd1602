@@ -117,7 +117,7 @@
   "TextAlignment.Right|block": "rechtsbündig",
   "TextOption.AlignLeft|block": "linksbündig",
   "TextOption.AlignRight|block": "rechtsbündig",
-  "TextOption.PadWithZeros|block": "mit führenden Nullen",
+  "TextOption.PadWithZeros|block": "führenden Nullen",
   "makerbit.clearLcd|block": "lösche LCD",
   "makerbit.connectLcd|block": "verbinde LCD an I2C Adresse %i2cAddress",
   "makerbit.isLcdConnected|block": "LCD ist verbunden",
