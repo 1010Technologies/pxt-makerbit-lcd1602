@@ -237,6 +237,22 @@ const enum LcdBacklight {
   On = 8
 }
 
+const enum TextAlignment {
+  //% block="left-aligned"
+  Left,
+  //% block="right-aligned"
+  Right
+}
+
+const enum TextOption {
+  //% block="align left"
+  AlignLeft,
+  //% block="align right"
+  AlignRight,
+  //% block="pad with zeros"
+  PadWithZeros
+}
+
 namespace makerbit {
   const enum Lcd {
     Command = 0,
@@ -300,52 +316,99 @@ namespace makerbit {
 
   /**
    * Displays a text on a LCD1602 in the given position range.
-   * The text will be cropped if it is longer than the provided range.
-   * If there is space left, it will be filled with whitespaces.
-   * @param text the text to show, eg: "LCD1602"
+   * The text will be cropped if it is longer than the provided length.
+   * If there is space left, it will be filled with pad characters.
+   * @param text the text to show, eg: "MakerBit"
    * @param startPosition the start position on the LCD, [0 - 31]
-   * @param endPosition the end position on the LCD, [0 - 31]
+   * @param length the maximum space used on the LCD, eg: 16
+   * @param option configures padding and alignment, eg: TextOption.Left
    */
   //% subcategory="LCD"
   //% blockId="makerbit_lcd_show_string_on_1602"
-  //% block="show %text on LCD1602 | from %startPosition=makerbit_lcd_position_1602 | to %endPosition=makerbit_lcd_position_1602"
+  //% block="LCD1602 show %text | at position %startPosition=makerbit_lcd_position_1602 with length %length || and %option"
   //% text.shadowOptions.toString=true
+  //% length.min=1 length.max=32 length.fieldOptions.precision=1
+  //% expandableArgumentMode="toggle"
+  //% inlineInputMode="inline"
   //% weight=90
   export function showStringOnLcd1602(
     text: string,
     startPosition: number,
-    endPosition: number
+    length: number,
+    option?: TextOption
   ): void {
-    showStringOnLcd(text, startPosition, endPosition, 16, 2);
+    showStringOnLcd(
+      text,
+      startPosition,
+      length,
+      16,
+      2,
+      toAlignment(option),
+      toPad(option)
+    );
+  }
+
+  function toAlignment(option?: TextOption): TextAlignment {
+    if (
+      option === TextOption.AlignRight ||
+      option === TextOption.PadWithZeros
+    ) {
+      return TextAlignment.Right;
+    } else {
+      return TextAlignment.Left;
+    }
+  }
+
+  function toPad(option?: TextOption): string {
+    if (option === TextOption.PadWithZeros) {
+      return "0";
+    } else {
+      return " ";
+    }
   }
 
   /**
    * Displays a text on a LCD2004 in the given position range.
-   * The text will be cropped if it is longer than the provided range.
-   * If there is space left, it will be filled with whitespaces.
-   * @param text the text to show, eg: "LCD2004"
+   * The text will be cropped if it is longer than the provided length.
+   * If there is space left, it will be filled with pad characters.
+   * @param text the text to show, eg: "MakerBit"
    * @param startPosition the start position on the LCD, [0 - 79]
-   * @param endPosition the end position on the LCD, [0 - 79]
+   * @param length the maximum space used on the LCD, eg: 20
+   * @param option configures padding and alignment, eg: TextOption.Left
    */
   //% subcategory="LCD"
   //% blockId="makerbit_lcd_show_string_on_2004"
-  //% block="show %text on LCD2004 | from %startPosition=makerbit_lcd_position_2004 | to %endPosition=makerbit_lcd_position_2004"
+  //% block="LCD2004 show %text | at position %startPosition=makerbit_lcd_position_2004 with length %length || and %option"
   //% text.shadowOptions.toString=true
+  //% length.min=1 length.max=80 length.fieldOptions.precision=1
+  //% expandableArgumentMode="toggle"
+  //% inlineInputMode="inline"
   //% weight=89
   export function showStringOnLcd2004(
     text: string,
     startPosition: number,
-    endPosition: number
+    length: number,
+    option?: TextOption
   ): void {
-    showStringOnLcd(text, startPosition, endPosition, 20, 4);
+    showStringOnLcd(
+      text,
+      startPosition,
+      length,
+      20,
+      4,
+      toAlignment(option),
+      toPad(option)
+    );
   }
 
   export function showStringOnLcd(
     text: string,
     startPosition: number,
-    endPosition: number,
+    length: number,
     columns: number,
-    rows: number
+    rows: number,
+    alignment: TextAlignment,
+    pad: string
   ): void {
     if (!lcdState && !connect()) {
       return;
@@ -369,20 +432,32 @@ namespace makerbit {
       return;
     }
 
-    const whitespace = " ".charCodeAt(0);
+    const fillCharacter =
+      pad.length > 0 ? pad.charCodeAt(0) : " ".charCodeAt(0);
 
-    for (
-      let textPosition = 0;
-      startPosition + textPosition <= endPosition;
-      textPosition++
-    ) {
-      let character = text.charCodeAt(textPosition);
+    let endPosition = startPosition + length;
+    let lcdPos = startPosition;
 
-      if (textPosition >= text.length) {
-        character = whitespace;
+    // Padding at the beginning
+    if (alignment == TextAlignment.Right) {
+      while (lcdPos < endPosition - text.length) {
+        updateCharacterIfRequired(fillCharacter, lcdPos);
+        lcdPos++;
       }
+    }
 
-      updateCharacterIfRequired(character, startPosition + textPosition);
+    // Print text
+    let textPosition = 0;
+    while (lcdPos < endPosition && textPosition < text.length) {
+      updateCharacterIfRequired(text.charCodeAt(textPosition), lcdPos);
+      lcdPos++;
+      textPosition++;
+    }
+
+    // Padding at the end
+    while (lcdPos < endPosition) {
+      updateCharacterIfRequired(fillCharacter, lcdPos);
+      lcdPos++;
     }
   }
 
@@ -455,9 +530,11 @@ namespace makerbit {
       showStringOnLcd(
         "",
         0,
-        lcdState.rows * lcdState.columns - 1,
+        lcdState.rows * lcdState.columns,
         lcdState.columns,
-        lcdState.rows
+        lcdState.rows,
+        TextAlignment.Left,
+        " "
       );
     }
   }

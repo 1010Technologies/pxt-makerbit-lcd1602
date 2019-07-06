@@ -4,7 +4,9 @@
 
 makerbit.connectLcd(39);
 makerbit.showStringOnLcd1602("Hello world", 0, 15);
+makerbit.showStringOnLcd1602("Hello world", 0, 15, TextOption.AlignRight);
 makerbit.showStringOnLcd2004("Hello world", 0, 19);
+makerbit.showStringOnLcd2004("9", 0, 19, TextOption.PadWithZeros);
 makerbit.clearLcd();
 makerbit.setLcdBacklight(LcdBacklight.On);
 const pos1602: number = makerbit.position1602(LcdPosition1602.P0);
