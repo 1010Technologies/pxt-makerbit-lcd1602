@@ -271,6 +271,23 @@ namespace makerbit {
   let lcdState: LcdState = undefined;
   let hasTriedToAutoConnect = false;
 
+  function connect(): boolean {
+    if (hasTriedToAutoConnect) {
+      return false;
+    }
+    hasTriedToAutoConnect = true;
+
+    if (0 != pins.i2cReadNumber(39, NumberFormat.Int8LE, false)) {
+      // PCF8574
+      connectLcd(39);
+    } else if (0 != pins.i2cReadNumber(63, NumberFormat.Int8LE, false)) {
+      // PCF8574A
+      connectLcd(63);
+    }
+
+    return !!lcdState;
+  }
+
   // Write 4 bits (high nibble) to I2C bus
   function write4bits(value: number) {
     if (!lcdState && !connect()) {
@@ -314,93 +331,6 @@ namespace makerbit {
     sendCommand(0x80 | (offsets[line] + column));
   }
 
-  /**
-   * Displays a text on a LCD1602 in the given position range.
-   * The text will be cropped if it is longer than the provided length.
-   * If there is space left, it will be filled with pad characters.
-   * @param text the text to show, eg: "MakerBit"
-   * @param startPosition the start position on the LCD, [0 - 31]
-   * @param length the maximum space used on the LCD, eg: 16
-   * @param option configures padding and alignment, eg: TextOption.Left
-   */
-  //% subcategory="LCD"
-  //% blockId="makerbit_lcd_show_string_on_1602"
-  //% block="LCD1602 show %text | at position %startPosition=makerbit_lcd_position_1602 with length %length || and %option"
-  //% text.shadowOptions.toString=true
-  //% length.min=1 length.max=32 length.fieldOptions.precision=1
-  //% expandableArgumentMode="toggle"
-  //% inlineInputMode="inline"
-  //% weight=90
-  export function showStringOnLcd1602(
-    text: string,
-    startPosition: number,
-    length: number,
-    option?: TextOption
-  ): void {
-    showStringOnLcd(
-      text,
-      startPosition,
-      length,
-      16,
-      2,
-      toAlignment(option),
-      toPad(option)
-    );
-  }
-
-  function toAlignment(option?: TextOption): TextAlignment {
-    if (
-      option === TextOption.AlignRight ||
-      option === TextOption.PadWithZeros
-    ) {
-      return TextAlignment.Right;
-    } else {
-      return TextAlignment.Left;
-    }
-  }
-
-  function toPad(option?: TextOption): string {
-    if (option === TextOption.PadWithZeros) {
-      return "0";
-    } else {
-      return " ";
-    }
-  }
-
-  /**
-   * Displays a text on a LCD2004 in the given position range.
-   * The text will be cropped if it is longer than the provided length.
-   * If there is space left, it will be filled with pad characters.
-   * @param text the text to show, eg: "MakerBit"
-   * @param startPosition the start position on the LCD, [0 - 79]
-   * @param length the maximum space used on the LCD, eg: 20
-   * @param option configures padding and alignment, eg: TextOption.Left
-   */
-  //% subcategory="LCD"
-  //% blockId="makerbit_lcd_show_string_on_2004"
-  //% block="LCD2004 show %text | at position %startPosition=makerbit_lcd_position_2004 with length %length || and %option"
-  //% text.shadowOptions.toString=true
-  //% length.min=1 length.max=80 length.fieldOptions.precision=1
-  //% expandableArgumentMode="toggle"
-  //% inlineInputMode="inline"
-  //% weight=89
-  export function showStringOnLcd2004(
-    text: string,
-    startPosition: number,
-    length: number,
-    option?: TextOption
-  ): void {
-    showStringOnLcd(
-      text,
-      startPosition,
-      length,
-      20,
-      4,
-      toAlignment(option),
-      toPad(option)
-    );
-  }
-
   export function showStringOnLcd(
     text: string,
     startPosition: number,
@@ -425,7 +355,15 @@ namespace makerbit {
       for (let pos = 0; pos < lcdState.rows * lcdState.columns; pos++) {
         lcdState.characters[pos] = whitespace;
       }
-      clearLcd();
+      showStringOnLcd(
+        "",
+        0,
+        lcdState.columns * lcdState.rows,
+        lcdState.columns,
+        lcdState.rows,
+        TextAlignment.Left,
+        " "
+      );
     }
 
     if (columns !== lcdState.columns || rows !== lcdState.rows) {
@@ -491,6 +429,113 @@ namespace makerbit {
     }
   }
 
+  function toAlignment(option?: TextOption): TextAlignment {
+    if (
+      option === TextOption.AlignRight ||
+      option === TextOption.PadWithZeros
+    ) {
+      return TextAlignment.Right;
+    } else {
+      return TextAlignment.Left;
+    }
+  }
+
+  function toPad(option?: TextOption): string {
+    if (option === TextOption.PadWithZeros) {
+      return "0";
+    } else {
+      return " ";
+    }
+  }
+
+  /**
+   * Displays a text on a LCD1602 in the given position range.
+   * The text will be cropped if it is longer than the provided length.
+   * If there is space left, it will be filled with pad characters.
+   * @param text the text to show, eg: "MakerBit"
+   * @param startPosition the start position on the LCD, [0 - 31]
+   * @param length the maximum space used on the LCD, eg: 16
+   * @param option configures padding and alignment, eg: TextOption.Left
+   */
+  //% subcategory="LCD"
+  //% blockId="makerbit_lcd_show_string_on_1602"
+  //% block="LCD1602 show %text | at position %startPosition=makerbit_lcd_position_1602 with length %length || and %option"
+  //% text.shadowOptions.toString=true
+  //% length.min=1 length.max=32 length.fieldOptions.precision=1
+  //% expandableArgumentMode="toggle"
+  //% inlineInputMode="inline"
+  //% weight=90
+  export function showStringOnLcd1602(
+    text: string,
+    startPosition: number,
+    length: number,
+    option?: TextOption
+  ): void {
+    showStringOnLcd(
+      text,
+      startPosition,
+      length,
+      16,
+      2,
+      toAlignment(option),
+      toPad(option)
+    );
+  }
+
+  /**
+   * Clears the LCD1602 completely.
+   */
+  //% subcategory="LCD"
+  //% blockId="makerbit_lcd_clear_1602" block="LCD1602 clear display"
+  //% weight=89
+  export function clearLcd1602(): void {
+    showStringOnLcd1602("", 0, 32);
+  }
+
+  /**
+   * Displays a text on a LCD2004 in the given position range.
+   * The text will be cropped if it is longer than the provided length.
+   * If there is space left, it will be filled with pad characters.
+   * @param text the text to show, eg: "MakerBit"
+   * @param startPosition the start position on the LCD, [0 - 79]
+   * @param length the maximum space used on the LCD, eg: 20
+   * @param option configures padding and alignment, eg: TextOption.Left
+   */
+  //% subcategory="LCD"
+  //% blockId="makerbit_lcd_show_string_on_2004"
+  //% block="LCD2004 show %text | at position %startPosition=makerbit_lcd_position_2004 with length %length || and %option"
+  //% text.shadowOptions.toString=true
+  //% length.min=1 length.max=80 length.fieldOptions.precision=1
+  //% expandableArgumentMode="toggle"
+  //% inlineInputMode="inline"
+  //% weight=80
+  export function showStringOnLcd2004(
+    text: string,
+    startPosition: number,
+    length: number,
+    option?: TextOption
+  ): void {
+    showStringOnLcd(
+      text,
+      startPosition,
+      length,
+      20,
+      4,
+      toAlignment(option),
+      toPad(option)
+    );
+  }
+
+  /**
+   * Clears the LCD2004 completely.
+   */
+  //% subcategory="LCD"
+  //% blockId="makerbit_lcd_clear_2004" block="LCD2004 clear display"
+  //% weight=79
+  export function clearLcd2004(): void {
+    showStringOnLcd2004("", 0, 80);
+  }
+
   /**
    * Turns a LCD position into a number.
    * @param pos the LCD position, eg: LcdPosition1602.P0
@@ -517,26 +562,6 @@ namespace makerbit {
   //% blockHidden=true
   export function position2004(pos: LcdPosition2004): number {
     return pos;
-  }
-
-  /**
-   * Clears the LCD completely.
-   */
-  //% subcategory="LCD"
-  //% blockId="makerbit_lcd_clear" block="clear LCD"
-  //% weight=80
-  export function clearLcd(): void {
-    if (lcdState && lcdState.columns !== 0) {
-      showStringOnLcd(
-        "",
-        0,
-        lcdState.rows * lcdState.columns,
-        lcdState.columns,
-        lcdState.rows,
-        TextAlignment.Left,
-        " "
-      );
-    }
   }
 
   /**
@@ -636,22 +661,5 @@ namespace makerbit {
   //% weight=69
   export function isLcdConnected(): boolean {
     return !!lcdState || connect();
-  }
-
-  function connect(): boolean {
-    if (hasTriedToAutoConnect) {
-      return false;
-    }
-    hasTriedToAutoConnect = true;
-
-    if (0 != pins.i2cReadNumber(39, NumberFormat.Int8LE, false)) {
-      // PCF8574
-      connectLcd(39);
-    } else if (0 != pins.i2cReadNumber(63, NumberFormat.Int8LE, false)) {
-      // PCF8574A
-      connectLcd(63);
-    }
-
-    return !!lcdState;
   }
 }
