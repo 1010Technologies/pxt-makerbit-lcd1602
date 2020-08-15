@@ -265,18 +265,13 @@ namespace makerbit {
     characters: Buffer;
     rows: uint8;
     columns: uint8;
-    cursor: uint8;
+    lineNeedsUpdate: uint8;
+    refreshIntervalId: number;
   }
 
   let lcdState: LcdState = undefined;
-  let hasTriedToAutoConnect = false;
 
   function connect(): boolean {
-    if (hasTriedToAutoConnect) {
-      return false;
-    }
-    hasTriedToAutoConnect = true;
-
     if (0 != pins.i2cReadNumber(39, NumberFormat.Int8LE, false)) {
       // PCF8574
       connectLcd(39);
@@ -284,7 +279,6 @@ namespace makerbit {
       // PCF8574A
       connectLcd(63);
     }
-
     return !!lcdState;
   }
 
@@ -344,11 +338,14 @@ namespace makerbit {
       return;
     }
 
+    if (!lcdState.refreshIntervalId) {
+      lcdState.refreshIntervalId = control.setInterval(refreshDisplay, 200, control.IntervalMode.Timeout)
+    }
+
     if (lcdState.columns === 0) {
       lcdState.columns = columns;
       lcdState.rows = rows;
       lcdState.characters = pins.createBuffer(lcdState.rows * lcdState.columns);
-      lcdState.cursor = rows * columns + 1;
 
       // Clear display and buffer
       const whitespace = "x".charCodeAt(0);
@@ -374,58 +371,63 @@ namespace makerbit {
       pad.length > 0 ? pad.charCodeAt(0) : " ".charCodeAt(0);
 
     let endPosition = startPosition + length;
+    if (endPosition > lcdState.columns * lcdState.rows) {
+      endPosition = lcdState.columns * lcdState.rows;
+    }
     let lcdPos = startPosition;
 
-    // Padding at the beginning
+    // Add padding at the beginning
     if (alignment == TextAlignment.Right) {
       while (lcdPos < endPosition - text.length) {
-        updateCharacterIfRequired(fillCharacter, lcdPos);
+        if (lcdState.characters[lcdPos] != fillCharacter) {
+          lcdState.characters[lcdPos] = fillCharacter;
+          lcdState.lineNeedsUpdate |= (1 << Math.idiv(lcdPos, lcdState.columns))
+        }
         lcdPos++;
       }
     }
 
-    // Print text
+    // Copy the text
     let textPosition = 0;
     while (lcdPos < endPosition && textPosition < text.length) {
-      updateCharacterIfRequired(text.charCodeAt(textPosition), lcdPos);
+
+      if (lcdState.characters[lcdPos] != text.charCodeAt(textPosition)) {
+        lcdState.characters[lcdPos] = text.charCodeAt(textPosition);
+        lcdState.lineNeedsUpdate |= (1 << Math.idiv(lcdPos, lcdState.columns))
+      }
       lcdPos++;
       textPosition++;
     }
 
-    // Padding at the end
+    // Add padding at the end
     while (lcdPos < endPosition) {
-      updateCharacterIfRequired(fillCharacter, lcdPos);
+      if (lcdState.characters[lcdPos] != fillCharacter) {
+        lcdState.characters[lcdPos] = fillCharacter;
+        lcdState.lineNeedsUpdate |= (1 << Math.idiv(lcdPos, lcdState.columns))
+      }
       lcdPos++;
     }
   }
 
-  function updateCharacterIfRequired(
-    character: number,
-    position: number
-  ): void {
-    if (position < 0 || position >= lcdState.rows * lcdState.columns) {
+  function sendLine(line: number): void {
+    setCursor(line, 0);
+
+    for (let position = lcdState.columns * line; position < lcdState.columns * (line + 1); position++) {
+      sendData(lcdState.characters[position]);
+    }
+  }
+
+  function refreshDisplay() {
+    if (!lcdState) {
       return;
     }
+    lcdState.refreshIntervalId = undefined
 
-    if (!lcdState && !connect()) {
-      return;
-    }
-
-    if (lcdState.characters[position] != character) {
-      lcdState.characters[position] = character;
-
-      if (
-        lcdState.cursor !== position ||
-        lcdState.cursor % lcdState.columns === 0
-      ) {
-        setCursor(
-          Math.idiv(position, lcdState.columns),
-          position % lcdState.columns
-        );
+    for (let i = 0; i < lcdState.rows; i++) {
+      if (lcdState.lineNeedsUpdate & 1 << i) {
+        lcdState.lineNeedsUpdate &= ~(1 << i)
+        sendLine(i)
       }
-
-      sendData(character);
-      lcdState.cursor = position + 1;
     }
   }
 
@@ -589,8 +591,18 @@ namespace makerbit {
   //% i2cAddress.min=0 i2cAddress.max=127
   //% weight=70
   export function connectLcd(i2cAddress: number): void {
+
+    if (lcdState && lcdState.i2cAddress == i2cAddress) {
+      return;
+    }
+
     if (0 === pins.i2cReadNumber(i2cAddress, NumberFormat.Int8LE, false)) {
       return;
+    }
+
+    if (lcdState && lcdState.refreshIntervalId) {
+      control.clearInterval(lcdState.refreshIntervalId, control.IntervalMode.Timeout)
+      lcdState.refreshIntervalId = undefined
     }
 
     lcdState = {
@@ -599,7 +611,8 @@ namespace makerbit {
       columns: 0,
       rows: 0,
       characters: undefined,
-      cursor: undefined
+      lineNeedsUpdate: 0,
+      refreshIntervalId: undefined,
     };
 
     // Wait 50ms before sending first command to device after being powered on
