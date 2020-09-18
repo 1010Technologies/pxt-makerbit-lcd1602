@@ -339,7 +339,7 @@ namespace makerbit {
     }
 
     if (!lcdState.refreshIntervalId) {
-      lcdState.refreshIntervalId = control.setInterval(refreshDisplay, 200, control.IntervalMode.Timeout)
+      lcdState.refreshIntervalId = control.setInterval(refreshDisplay, 500, control.IntervalMode.Timeout)
     }
 
     if (lcdState.columns === 0) {
