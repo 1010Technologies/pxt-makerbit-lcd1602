@@ -25,7 +25,7 @@ Displays with I2C address 39 or 63 will work automatically. Use connectLCD to ex
 
 ```blocks
 makerbit.setLcdBacklight(LcdBacklight.Off)
-makerbit.showStringOnLcd1602("MakerBit", 0, 9)
+makerbit.showStringOnLcd1602("MakerBit", 1, 9)
 basic.pause(2000)
 makerbit.clearLcd()
 ```
@@ -35,7 +35,7 @@ makerbit.clearLcd()
 Displays a text on a LCD1602 in the given position range. The text will be cropped if it is longer than the provided range. If there is space left, it will be filled with whitespaces.
 
 ```sig
-makerbit.showStringOnLcd1602("Hello world", 0, 15)
+makerbit.showStringOnLcd1602("Hello world", 1, 16)
 ```
 
 ### MakerBit showStringOnLcd2004

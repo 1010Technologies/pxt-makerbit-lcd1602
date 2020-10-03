@@ -1,233 +1,233 @@
 // MakerBit blocks supporting both an I2C LCD 1602 or 2004 display
 
 const enum LcdPosition1602 {
-  //% block="0"
-  P0 = 0,
   //% block="1"
-  P1 = 1,
+  Pos1 = 1,
   //% block="2"
-  P2 = 2,
+  Pos2 = 2,
   //% block="3"
-  P3 = 3,
+  Pos3 = 3,
   //% block="4"
-  P4 = 4,
+  Pos4 = 4,
   //% block="5"
-  P5 = 5,
+  Pos5 = 5,
   //% block="6"
-  P6 = 6,
+  Pos6 = 6,
   //% block="7"
-  P7 = 7,
+  Pos7 = 7,
   //% block="8"
-  P8 = 8,
+  Pos8 = 8,
   //% block="9"
-  P9 = 9,
+  Pos9 = 9,
   //% block="10"
-  P10 = 10,
+  Pos10 = 10,
   //% block="11"
-  P11 = 11,
+  Pos11 = 11,
   //% block="12"
-  P12 = 12,
+  Pos12 = 12,
   //% block="13"
-  P13 = 13,
+  Pos13 = 13,
   //% block="14"
-  P14 = 14,
+  Pos14 = 14,
   //% block="15"
-  P15 = 15,
+  Pos15 = 15,
   //% block="16"
-  P16 = 16,
+  Pos16 = 16,
   //% block="17"
-  P17 = 17,
+  Pos17 = 17,
   //% block="18"
-  P18 = 18,
+  Pos18 = 18,
   //% block="19"
-  P19 = 19,
+  Pos19 = 19,
   //% block="20"
-  P20 = 20,
+  Pos20 = 20,
   //% block="21"
-  P21 = 21,
+  Pos21 = 21,
   //% block="22"
-  P22 = 22,
+  Pos22 = 22,
   //% block="23"
-  P23 = 23,
+  Pos23 = 23,
   //% block="24"
-  P24 = 24,
+  Pos24 = 24,
   //% block="25"
-  P25 = 25,
+  Pos25 = 25,
   //% block="26"
-  P26 = 26,
+  Pos26 = 26,
   //% block="27"
-  P27 = 27,
+  Pos27 = 27,
   //% block="28"
-  P28 = 28,
+  Pos28 = 28,
   //% block="29"
-  P29 = 29,
+  Pos29 = 29,
   //% block="30"
-  P30 = 30,
+  Pos30 = 30,
   //% block="31"
-  P31 = 31
+  Pos31 = 31,
+  //% block="32"
+  Pos32 = 32
 }
 
 const enum LcdPosition2004 {
-  //% block="0"
-  P0 = 0,
   //% block="1"
-  P1 = 1,
+  Pos1 = 1,
   //% block="2"
-  P2 = 2,
+  Pos2 = 2,
   //% block="3"
-  P3 = 3,
+  Pos3 = 3,
   //% block="4"
-  P4 = 4,
+  Pos4 = 4,
   //% block="5"
-  P5 = 5,
+  Pos5 = 5,
   //% block="6"
-  P6 = 6,
+  Pos6 = 6,
   //% block="7"
-  P7 = 7,
+  Pos7 = 7,
   //% block="8"
-  P8 = 8,
+  Pos8 = 8,
   //% block="9"
-  P9 = 9,
+  Pos9 = 9,
   //% block="10"
-  P10 = 10,
+  Pos10 = 10,
   //% block="11"
-  P11 = 11,
+  Pos11 = 11,
   //% block="12"
-  P12 = 12,
+  Pos12 = 12,
   //% block="13"
-  P13 = 13,
+  Pos13 = 13,
   //% block="14"
-  P14 = 14,
+  Pos14 = 14,
   //% block="15"
-  P15 = 15,
+  Pos15 = 15,
   //% block="16"
-  P16 = 16,
+  Pos16 = 16,
   //% block="17"
-  P17 = 17,
+  Pos17 = 17,
   //% block="18"
-  P18 = 18,
+  Pos18 = 18,
   //% block="19"
-  P19 = 19,
+  Pos19 = 19,
   //% block="20"
-  P20 = 20,
+  Pos20 = 20,
   //% block="21"
-  P21 = 21,
+  Pos21 = 21,
   //% block="22"
-  P22 = 22,
+  Pos22 = 22,
   //% block="23"
-  P23 = 23,
+  Pos23 = 23,
   //% block="24"
-  P24 = 24,
+  Pos24 = 24,
   //% block="25"
-  P25 = 25,
+  Pos25 = 25,
   //% block="26"
-  P26 = 26,
+  Pos26 = 26,
   //% block="27"
-  P27 = 27,
+  Pos27 = 27,
   //% block="28"
-  P28 = 28,
+  Pos28 = 28,
   //% block="29"
-  P29 = 29,
+  Pos29 = 29,
   //% block="30"
-  P30 = 30,
+  Pos30 = 30,
   //% block="31"
-  P31 = 31,
+  Pos31 = 31,
   //% block="32"
-  P32 = 32,
+  Pos32 = 32,
   //% block="33"
-  P33 = 33,
+  Pos33 = 33,
   //% block="34"
-  P34 = 34,
+  Pos34 = 34,
   //% block="35"
-  P35 = 35,
+  Pos35 = 35,
   //% block="36"
-  P36 = 36,
+  Pos36 = 36,
   //% block="37"
-  P37 = 37,
+  Pos37 = 37,
   //% block="38"
-  P38 = 38,
+  Pos38 = 38,
   //% block="39"
-  P39 = 39,
+  Pos39 = 39,
   //% block="40"
-  P40 = 40,
+  Pos40 = 40,
   //% block="41"
-  P41 = 41,
+  Pos41 = 41,
   //% block="42"
-  P42 = 42,
+  Pos42 = 42,
   //% block="43"
-  P43 = 43,
+  Pos43 = 43,
   //% block="44"
-  P44 = 44,
+  Pos44 = 44,
   //% block="45"
-  P45 = 45,
+  Pos45 = 45,
   //% block="46"
-  P46 = 46,
+  Pos46 = 46,
   //% block="47"
-  P47 = 47,
+  Pos47 = 47,
   //% block="48"
-  P48 = 48,
+  Pos48 = 48,
   //% block="49"
-  P49 = 49,
+  Pos49 = 49,
   //% block="50"
-  P50 = 50,
+  Pos50 = 50,
   //% block="51"
-  P51 = 51,
+  Pos51 = 51,
   //% block="52"
-  P52 = 52,
+  Pos52 = 52,
   //% block="53"
-  P53 = 53,
+  Pos53 = 53,
   //% block="54"
-  P54 = 54,
+  Pos54 = 54,
   //% block="55"
-  P55 = 55,
+  Pos55 = 55,
   //% block="56"
-  P56 = 56,
+  Pos56 = 56,
   //% block="57"
-  P57 = 57,
+  Pos57 = 57,
   //% block="58"
-  P58 = 58,
+  Pos58 = 58,
   //% block="59"
-  P59 = 59,
+  Pos59 = 59,
   //% block="60"
-  P60 = 60,
+  Pos60 = 60,
   //% block="61"
-  P61 = 61,
+  Pos61 = 61,
   //% block="62"
-  P62 = 62,
+  Pos62 = 62,
   //% block="63"
-  P63 = 63,
+  Pos63 = 63,
   //% block="64"
-  P64 = 64,
+  Pos64 = 64,
   //% block="65"
-  P65 = 65,
+  Pos65 = 65,
   //% block="66"
-  P66 = 66,
+  Pos66 = 66,
   //% block="67"
-  P67 = 67,
+  Pos67 = 67,
   //% block="68"
-  P68 = 68,
+  Pos68 = 68,
   //% block="69"
-  P69 = 69,
+  Pos69 = 69,
   //% block="70"
-  P70 = 70,
+  Pos70 = 70,
   //% block="71"
-  P71 = 71,
+  Pos71 = 71,
   //% block="72"
-  P72 = 72,
+  Pos72 = 72,
   //% block="73"
-  P73 = 73,
+  Pos73 = 73,
   //% block="74"
-  P74 = 74,
+  Pos74 = 74,
   //% block="75"
-  P75 = 75,
+  Pos75 = 75,
   //% block="76"
-  P76 = 76,
+  Pos76 = 76,
   //% block="77"
-  P77 = 77,
+  Pos77 = 77,
   //% block="78"
-  P78 = 78,
+  Pos78 = 78,
   //% block="79"
-  P79 = 79
+  Pos79 = 79,
+  //% block="80"
+  Pos80 = 80
 }
 
 const enum LcdBacklight {
@@ -325,9 +325,9 @@ namespace makerbit {
     sendCommand(0x80 | (offsets[line] + column));
   }
 
-  export function showStringOnLcd(
+  function updateCharacterBuffer(
     text: string,
-    startPosition: number,
+    offset: number,
     length: number,
     columns: number,
     rows: number,
@@ -352,7 +352,7 @@ namespace makerbit {
       for (let pos = 0; pos < lcdState.rows * lcdState.columns; pos++) {
         lcdState.characters[pos] = whitespace;
       }
-      showStringOnLcd(
+      updateCharacterBuffer(
         "",
         0,
         lcdState.columns * lcdState.rows,
@@ -370,11 +370,11 @@ namespace makerbit {
     const fillCharacter =
       pad.length > 0 ? pad.charCodeAt(0) : " ".charCodeAt(0);
 
-    let endPosition = startPosition + length;
+    let endPosition = offset + length;
     if (endPosition > lcdState.columns * lcdState.rows) {
       endPosition = lcdState.columns * lcdState.rows;
     }
-    let lcdPos = startPosition;
+    let lcdPos = offset;
 
     // Add padding at the beginning
     if (alignment == TextAlignment.Right) {
@@ -455,7 +455,7 @@ namespace makerbit {
    * The text will be cropped if it is longer than the provided length.
    * If there is space left, it will be filled with pad characters.
    * @param text the text to show, eg: "MakerBit"
-   * @param startPosition the start position on the LCD, [0 - 31]
+   * @param startPosition the start position on the LCD, [1 - 32]
    * @param length the maximum space used on the LCD, eg: 16
    * @param option configures padding and alignment, eg: TextOption.Left
    */
@@ -473,9 +473,9 @@ namespace makerbit {
     length: number,
     option?: TextOption
   ): void {
-    showStringOnLcd(
+    updateCharacterBuffer(
       text,
-      startPosition,
+      startPosition-1,
       length,
       16,
       2,
@@ -491,7 +491,7 @@ namespace makerbit {
   //% blockId="makerbit_lcd_clear_1602" block="LCD1602 clear display"
   //% weight=89
   export function clearLcd1602(): void {
-    showStringOnLcd1602("", 0, 32);
+    showStringOnLcd1602("", 1, 32);
   }
 
   /**
@@ -499,7 +499,7 @@ namespace makerbit {
    * The text will be cropped if it is longer than the provided length.
    * If there is space left, it will be filled with pad characters.
    * @param text the text to show, eg: "MakerBit"
-   * @param startPosition the start position on the LCD, [0 - 79]
+   * @param startPosition the start position on the LCD, [1 - 80]
    * @param length the maximum space used on the LCD, eg: 20
    * @param option configures padding and alignment, eg: TextOption.Left
    */
@@ -517,9 +517,9 @@ namespace makerbit {
     length: number,
     option?: TextOption
   ): void {
-    showStringOnLcd(
+    updateCharacterBuffer(
       text,
-      startPosition,
+      startPosition-1,
       length,
       20,
       4,
@@ -535,12 +535,12 @@ namespace makerbit {
   //% blockId="makerbit_lcd_clear_2004" block="LCD2004 clear display"
   //% weight=79
   export function clearLcd2004(): void {
-    showStringOnLcd2004("", 0, 80);
+    showStringOnLcd2004("", 1, 80);
   }
 
   /**
    * Turns a LCD position into a number.
-   * @param pos the LCD position, eg: LcdPosition1602.P0
+   * @param pos the LCD position, eg: LcdPosition1602.Pos1
    */
   //% subcategory="LCD"
   //% blockId=makerbit_lcd_position_1602
@@ -554,7 +554,7 @@ namespace makerbit {
 
   /**
    * Turns a LCD position into a number.
-   * @param pos the LCD position, eg: LcdPosition2004.P0
+   * @param pos the LCD position, eg: LcdPosition2004.Pos1
    */
   //% subcategory="LCD"
   //% blockId=makerbit_lcd_position_2004
