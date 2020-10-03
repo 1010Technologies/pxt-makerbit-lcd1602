@@ -503,7 +503,7 @@ namespace makerbit {
    * @param length the maximum space used on the LCD, eg: 20
    * @param option configures padding and alignment, eg: TextOption.Left
    */
-  //% subcategory="LCD"
+  //% subcategory="LCD 2004"
   //% blockId="makerbit_lcd_show_string_on_2004"
   //% block="LCD2004 show %text | at position %startPosition=makerbit_lcd_position_2004 with length %length || and %option"
   //% text.shadowOptions.toString=true
@@ -531,7 +531,7 @@ namespace makerbit {
   /**
    * Clears the LCD2004 completely.
    */
-  //% subcategory="LCD"
+  //% subcategory="LCD 2004"
   //% blockId="makerbit_lcd_clear_2004" block="LCD2004 clear display"
   //% weight=79
   export function clearLcd2004(): void {
@@ -556,7 +556,7 @@ namespace makerbit {
    * Turns a LCD position into a number.
    * @param pos the LCD position, eg: LcdPosition2004.Pos1
    */
-  //% subcategory="LCD"
+  //% subcategory="LCD 2004"
   //% blockId=makerbit_lcd_position_2004
   //% block="%pos"
   //% pos.fieldEditor="gridpicker"
