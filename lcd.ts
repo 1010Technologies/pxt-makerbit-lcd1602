@@ -459,7 +459,7 @@ namespace makerbit {
    * @param length the maximum space used on the LCD, eg: 16
    * @param option configures padding and alignment, eg: TextOption.Left
    */
-  //% subcategory="LCD"
+  //% subcategory="LCD 1602"
   //% blockId="makerbit_lcd_show_string_on_1602"
   //% block="LCD1602 show %text | at position %startPosition=makerbit_lcd_position_1602 with length %length || and %option"
   //% text.shadowOptions.toString=true
@@ -487,7 +487,7 @@ namespace makerbit {
   /**
    * Clears the LCD1602 completely.
    */
-  //% subcategory="LCD"
+  //% subcategory="LCD 1602"
   //% blockId="makerbit_lcd_clear_1602" block="LCD1602 clear display"
   //% weight=89
   export function clearLcd1602(): void {
@@ -542,7 +542,7 @@ namespace makerbit {
    * Turns a LCD position into a number.
    * @param pos the LCD position, eg: LcdPosition1602.Pos1
    */
-  //% subcategory="LCD"
+  //% subcategory="LCD 1602"
   //% blockId=makerbit_lcd_position_1602
   //% block="%pos"
   //% pos.fieldEditor="gridpicker"
@@ -570,7 +570,7 @@ namespace makerbit {
    * Enables or disables the backlight of the LCD.
    * @param backlight new state of backlight, eg: LcdBacklight.Off
    */
-  //% subcategory="LCD"
+  //% subcategory="LCD 1602"
   //% blockId="makerbit_lcd_backlight" block="switch LCD backlight %backlight"
   //% weight=79
   export function setLcdBacklight(backlight: LcdBacklight): void {
@@ -586,7 +586,7 @@ namespace makerbit {
    * The addresses 39 (PCF8574) or 63 (PCF8574A) seem to be widely used.
    * @param i2cAddress I2C address of LCD in the range from 0 to 127, eg: 39
    */
-  //% subcategory="LCD"
+  //% subcategory="LCD 1602"
   //% blockId="makerbit_lcd_set_address" block="connect LCD at I2C address %i2cAddress"
   //% i2cAddress.min=0 i2cAddress.max=127
   //% weight=70
@@ -639,7 +639,7 @@ namespace makerbit {
     // Configure function set
     const LCD_FUNCTIONSET = 0x20;
     const LCD_4BITMODE = 0x00;
-    const LCD_2LINE = 0x08;
+    const LCD_2LINE = 0x08; // >= 2 lines
     const LCD_5x8DOTS = 0x00;
     send(Lcd.Command, LCD_FUNCTIONSET | LCD_4BITMODE | LCD_2LINE | LCD_5x8DOTS);
     control.waitMicros(1000);
@@ -669,7 +669,7 @@ namespace makerbit {
   /**
    * Returns true if a LCD is connected. False otherwise.
    */
-  //% subcategory="LCD"
+  //% subcategory="LCD 1602"
   //% blockId="makerbit_lcd_is_connected" block="LCD is connected"
   //% weight=69
   export function isLcdConnected(): boolean {
