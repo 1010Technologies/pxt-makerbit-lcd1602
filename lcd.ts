@@ -459,7 +459,7 @@ namespace makerbit {
    * @param length the maximum space used on the LCD, eg: 16
    * @param option configures padding and alignment, eg: TextOption.Left
    */
-  //% subcategory="LCD 1602"
+  //% subcategory="LCD1602"
   //% blockId="makerbit_lcd_show_string_on_1602"
   //% block="LCD1602 show %text | at position %startPosition=makerbit_lcd_position_1602 with length %length || and %option"
   //% text.shadowOptions.toString=true
@@ -487,7 +487,7 @@ namespace makerbit {
   /**
    * Clears the LCD1602 completely.
    */
-  //% subcategory="LCD 1602"
+  //% subcategory="LCD1602"
   //% blockId="makerbit_lcd_clear_1602" block="LCD1602 clear display"
   //% weight=89
   export function clearLcd1602(): void {
@@ -503,7 +503,7 @@ namespace makerbit {
    * @param length the maximum space used on the LCD, eg: 20
    * @param option configures padding and alignment, eg: TextOption.Left
    */
-  //% subcategory="LCD 2004"
+  //% subcategory="LCD2004"
   //% blockId="makerbit_lcd_show_string_on_2004"
   //% block="LCD2004 show %text | at position %startPosition=makerbit_lcd_position_2004 with length %length || and %option"
   //% text.shadowOptions.toString=true
@@ -531,7 +531,7 @@ namespace makerbit {
   /**
    * Clears the LCD2004 completely.
    */
-  //% subcategory="LCD 2004"
+  //% subcategory="LCD2004"
   //% blockId="makerbit_lcd_clear_2004" block="LCD2004 clear display"
   //% weight=79
   export function clearLcd2004(): void {
@@ -542,7 +542,7 @@ namespace makerbit {
    * Turns a LCD position into a number.
    * @param pos the LCD position, eg: LcdPosition1602.Pos1
    */
-  //% subcategory="LCD 1602"
+  //% subcategory="LCD1602"
   //% blockId=makerbit_lcd_position_1602
   //% block="%pos"
   //% pos.fieldEditor="gridpicker"
@@ -556,7 +556,7 @@ namespace makerbit {
    * Turns a LCD position into a number.
    * @param pos the LCD position, eg: LcdPosition2004.Pos1
    */
-  //% subcategory="LCD 2004"
+  //% subcategory="LCD2004"
   //% blockId=makerbit_lcd_position_2004
   //% block="%pos"
   //% pos.fieldEditor="gridpicker"
@@ -570,7 +570,7 @@ namespace makerbit {
    * Enables or disables the backlight of the LCD.
    * @param backlight new state of backlight, eg: LcdBacklight.Off
    */
-  //% subcategory="LCD 1602"
+  //% subcategory="LCD1602"
   //% blockId="makerbit_lcd_backlight" block="switch LCD backlight %backlight"
   //% weight=79
   export function setLcdBacklight(backlight: LcdBacklight): void {
@@ -586,7 +586,7 @@ namespace makerbit {
    * The addresses 39 (PCF8574) or 63 (PCF8574A) seem to be widely used.
    * @param i2cAddress I2C address of LCD in the range from 0 to 127, eg: 39
    */
-  //% subcategory="LCD 1602"
+  //% subcategory="LCD1602"
   //% blockId="makerbit_lcd_set_address" block="connect LCD at I2C address %i2cAddress"
   //% i2cAddress.min=0 i2cAddress.max=127
   //% weight=70
@@ -669,7 +669,7 @@ namespace makerbit {
   /**
    * Returns true if a LCD is connected. False otherwise.
    */
-  //% subcategory="LCD 1602"
+  //% subcategory="LCD1602"
   //% blockId="makerbit_lcd_is_connected" block="LCD is connected"
   //% weight=69
   export function isLcdConnected(): boolean {
