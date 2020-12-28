@@ -1,6 +1,6 @@
 {
     "name": "MakerBit-LCD1602",
-    "version": "1.6.4",
+    "version": "1.6.5",
     "description": "MakeCode extension for I2C LCD 1602 displays",
     "license": "MIT",
     "dependencies": {
