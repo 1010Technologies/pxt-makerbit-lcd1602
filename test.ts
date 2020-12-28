@@ -4,6 +4,8 @@
 
 makerbit.connectLcd(39);
 makerbit.showStringOnLcd1602("Hello world", 1, 16);
+makerbit.showStringOnLcd1602("Hello world", 1, 16, TextOption.AlignLeft);
+makerbit.showStringOnLcd1602("Hello world", 1, 16, TextOption.AlignCenter);
 makerbit.showStringOnLcd1602("Hello world", 1, 16, TextOption.AlignRight);
 makerbit.showStringOnLcd2004("Hello world", 1, 20);
 makerbit.showStringOnLcd2004("9", 1, 20, TextOption.PadWithZeros);

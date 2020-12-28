@@ -241,7 +241,9 @@ const enum TextAlignment {
   //% block="left-aligned"
   Left,
   //% block="right-aligned"
-  Right
+  Right,
+  //% block="center-aligned"
+  Center,
 }
 
 const enum TextOption {
@@ -249,6 +251,8 @@ const enum TextOption {
   AlignLeft,
   //% block="align right"
   AlignRight,
+  //% block="align center"
+  AlignCenter,
   //% block="pad with zeros"
   PadWithZeros
 }
@@ -377,15 +381,23 @@ namespace makerbit {
     let lcdPos = offset;
 
     // Add padding at the beginning
-    if (alignment == TextAlignment.Right) {
-      while (lcdPos < endPosition - text.length) {
-        if (lcdState.characters[lcdPos] != fillCharacter) {
-          lcdState.characters[lcdPos] = fillCharacter;
-          lcdState.lineNeedsUpdate |= (1 << Math.idiv(lcdPos, lcdState.columns))
-        }
-        lcdPos++;
-      }
+    let paddingEnd = offset;
+
+    if (alignment === TextAlignment.Right) {
+      paddingEnd = endPosition - text.length;
     }
+    else if (alignment === TextAlignment.Center) {
+      paddingEnd = offset + Math.idiv(endPosition - offset - text.length,2);
+    }
+    
+    while (lcdPos < paddingEnd) {
+      if (lcdState.characters[lcdPos] != fillCharacter) {
+        lcdState.characters[lcdPos] = fillCharacter;
+        lcdState.lineNeedsUpdate |= (1 << Math.idiv(lcdPos, lcdState.columns))
+      }
+      lcdPos++;
+    }
+
 
     // Copy the text
     let textPosition = 0;
@@ -437,8 +449,10 @@ namespace makerbit {
       option === TextOption.PadWithZeros
     ) {
       return TextAlignment.Right;
-    } else {
+    } else if (option === TextOption.AlignLeft) {
       return TextAlignment.Left;
+    } else {
+      return TextAlignment.Center;
     }
   }
 
