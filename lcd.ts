@@ -449,8 +449,8 @@ namespace makerbit {
       option === TextOption.PadWithZeros
     ) {
       return TextAlignment.Right;
-    } else if (option === TextOption.AlignLeft) {
-      return TextAlignment.Left;
+    } else if (option === TextOption.AlignCenter) {
+      return TextAlignment.Center;
     } else {
       return TextAlignment.Left;
     }
