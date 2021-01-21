@@ -387,9 +387,9 @@ namespace makerbit {
       paddingEnd = endPosition - text.length;
     }
     else if (alignment === TextAlignment.Center) {
-      paddingEnd = offset + Math.idiv(endPosition - offset - text.length,2);
+      paddingEnd = offset + Math.idiv(endPosition - offset - text.length, 2);
     }
-    
+
     while (lcdPos < paddingEnd) {
       if (lcdState.characters[lcdPos] != fillCharacter) {
         lcdState.characters[lcdPos] = fillCharacter;
@@ -452,7 +452,7 @@ namespace makerbit {
     } else if (option === TextOption.AlignLeft) {
       return TextAlignment.Left;
     } else {
-      return TextAlignment.Center;
+      return TextAlignment.Left;
     }
   }
 
@@ -489,7 +489,7 @@ namespace makerbit {
   ): void {
     updateCharacterBuffer(
       text,
-      startPosition-1,
+      startPosition - 1,
       length,
       16,
       2,
@@ -533,7 +533,7 @@ namespace makerbit {
   ): void {
     updateCharacterBuffer(
       text,
-      startPosition-1,
+      startPosition - 1,
       length,
       20,
       4,
