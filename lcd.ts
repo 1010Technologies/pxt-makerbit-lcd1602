@@ -287,46 +287,47 @@ namespace makerbit {
   }
 
   // Write 4 bits (high nibble) to I2C bus
-  function write4bits(value: number) {
+  function write4bits(value: number, repeated: boolean) {
     if (!lcdState && !connect()) {
       return;
     }
-    pins.i2cWriteNumber(lcdState.i2cAddress, value, NumberFormat.Int8LE);
-    pins.i2cWriteNumber(lcdState.i2cAddress, value | 0x04, NumberFormat.Int8LE);
+    pins.i2cWriteNumber(lcdState.i2cAddress, value, NumberFormat.Int8LE, true);
+    pins.i2cWriteNumber(lcdState.i2cAddress, value | 0x04, NumberFormat.Int8LE, true);
     control.waitMicros(1);
     pins.i2cWriteNumber(
       lcdState.i2cAddress,
       value & (0xff ^ 0x04),
-      NumberFormat.Int8LE
+      NumberFormat.Int8LE,
+      repeated
     );
     control.waitMicros(50);
   }
 
   // Send high and low nibble
-  function send(RS_bit: number, payload: number) {
+  function send(RS_bit: number, payload: number, repeated: boolean) {
     if (!lcdState) {
       return;
     }
     const highnib = payload & 0xf0;
-    write4bits(highnib | lcdState.backlight | RS_bit);
+    write4bits(highnib | lcdState.backlight | RS_bit, true);
     const lownib = (payload << 4) & 0xf0;
-    write4bits(lownib | lcdState.backlight | RS_bit);
+    write4bits(lownib | lcdState.backlight | RS_bit, repeated);
   }
 
   // Send command
-  function sendCommand(command: number) {
-    send(Lcd.Command, command);
+  function sendCommand(command: number, repeated: boolean) {
+    send(Lcd.Command, command, repeated);
   }
 
   // Send data
-  function sendData(data: number) {
-    send(Lcd.Data, data);
+  function sendData(data: number, repeated: boolean) {
+    send(Lcd.Data, data, repeated);
   }
 
   // Set cursor
-  function setCursor(line: number, column: number) {
+  function setCursor(line: number, column: number, repeated: boolean) {
     const offsets = [0x00, 0x40, 0x14, 0x54];
-    sendCommand(0x80 | (offsets[line] + column));
+    sendCommand(0x80 | (offsets[line] + column), repeated);
   }
 
   function updateCharacterBuffer(
@@ -421,11 +422,11 @@ namespace makerbit {
     }
   }
 
-  function sendLine(line: number): void {
-    setCursor(line, 0);
+  function sendLineRepeated(line: number): void {
+    setCursor(line, 0, true);
 
     for (let position = lcdState.columns * line; position < lcdState.columns * (line + 1); position++) {
-      sendData(lcdState.characters[position]);
+      sendData(lcdState.characters[position], true);
     }
   }
 
@@ -438,9 +439,11 @@ namespace makerbit {
     for (let i = 0; i < lcdState.rows; i++) {
       if (lcdState.lineNeedsUpdate & 1 << i) {
         lcdState.lineNeedsUpdate &= ~(1 << i)
-        sendLine(i)
+        sendLineRepeated(i)
       }
     }
+
+    send(Lcd.Command, 0, false); // send i2c stop 
   }
 
   function toAlignment(option?: TextOption): TextAlignment {
@@ -592,7 +595,7 @@ namespace makerbit {
       return;
     }
     lcdState.backlight = backlight;
-    send(Lcd.Command, 0);
+    send(Lcd.Command, 0, false);
   }
 
   /**
@@ -636,18 +639,19 @@ namespace makerbit {
     pins.i2cWriteNumber(
       lcdState.i2cAddress,
       lcdState.backlight,
-      NumberFormat.Int8LE
+      NumberFormat.Int8LE,
+      true
     );
     basic.pause(50);
 
     // Set 4bit mode
-    write4bits(0x30);
+    write4bits(0x30, true);
     control.waitMicros(4100);
-    write4bits(0x30);
+    write4bits(0x30, true);
     control.waitMicros(4100);
-    write4bits(0x30);
+    write4bits(0x30, true);
     control.waitMicros(4100);
-    write4bits(0x20);
+    write4bits(0x20, true);
     control.waitMicros(1000);
 
     // Configure function set
@@ -655,7 +659,7 @@ namespace makerbit {
     const LCD_4BITMODE = 0x00;
     const LCD_2LINE = 0x08; // >= 2 lines
     const LCD_5x8DOTS = 0x00;
-    send(Lcd.Command, LCD_FUNCTIONSET | LCD_4BITMODE | LCD_2LINE | LCD_5x8DOTS);
+    send(Lcd.Command, LCD_FUNCTIONSET | LCD_4BITMODE | LCD_2LINE | LCD_5x8DOTS, true);
     control.waitMicros(1000);
 
     // Configure display
@@ -665,17 +669,19 @@ namespace makerbit {
     const LCD_BLINKOFF = 0x00;
     send(
       Lcd.Command,
-      LCD_DISPLAYCONTROL | LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF
+      LCD_DISPLAYCONTROL | LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF,
+      true
     );
     control.waitMicros(1000);
 
-    // Set the entry mode
+    // Set the entry mode and stop i2c
     const LCD_ENTRYMODESET = 0x04;
     const LCD_ENTRYLEFT = 0x02;
     const LCD_ENTRYSHIFTDECREMENT = 0x00;
     send(
       Lcd.Command,
-      LCD_ENTRYMODESET | LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT
+      LCD_ENTRYMODESET | LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT,
+      false
     );
     control.waitMicros(1000);
   }
