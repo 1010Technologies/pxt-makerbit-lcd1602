@@ -276,10 +276,13 @@ namespace makerbit {
   let lcdState: LcdState = undefined;
 
   function connect(): boolean {
-    if (0 != pins.i2cReadNumber(39, NumberFormat.Int8LE, false)) {
+    let buf = control.createBuffer(1);
+    buf.setNumber(NumberFormat.UInt8LE, 0, 0);
+
+    if (0 == pins.i2cWriteBuffer(39, buf, false)) {
       // PCF8574
       connectLcd(39);
-    } else if (0 != pins.i2cReadNumber(63, NumberFormat.Int8LE, false)) {
+    } else if (0 == pins.i2cWriteBuffer(63, buf, false)) {
       // PCF8574A
       connectLcd(63);
     }
@@ -613,10 +616,6 @@ namespace makerbit {
       return;
     }
 
-    if (0 === pins.i2cReadNumber(i2cAddress, NumberFormat.Int8LE, false)) {
-      return;
-    }
-
     if (lcdState && lcdState.refreshIntervalId) {
       control.clearInterval(lcdState.refreshIntervalId, control.IntervalMode.Timeout)
       lcdState.refreshIntervalId = undefined
@@ -696,3 +695,4 @@ namespace makerbit {
     return !!lcdState || connect();
   }
 }
+
