@@ -291,7 +291,7 @@ namespace makerbit {
 
   // Write 4 bits (high nibble) to I2C bus
   function write4bits(value: number, repeated: boolean) {
-    if (!lcdState && !connect()) {
+    if (!lcdState) {
       return;
     }
     pins.i2cWriteNumber(lcdState.i2cAddress, value, NumberFormat.Int8LE, true);
