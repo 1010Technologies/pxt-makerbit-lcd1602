@@ -294,13 +294,12 @@ namespace makerbit {
     if (!lcdState) {
       return;
     }
-    pins.i2cWriteNumber(lcdState.i2cAddress, value, NumberFormat.Int8LE);
-    pins.i2cWriteNumber(lcdState.i2cAddress, value | 0x04, NumberFormat.Int8LE);
-    pins.i2cWriteNumber(
-      lcdState.i2cAddress,
-      value & (0xff ^ 0x04),
-      NumberFormat.Int8LE
-    );
+
+    const buf = pins.createBuffer(3 * pins.sizeOf(NumberFormat.Int8LE))
+    buf.setNumber(NumberFormat.Int8LE, 0, value)
+    buf.setNumber(NumberFormat.Int8LE, 1, value | 0x04)
+    buf.setNumber(NumberFormat.Int8LE, 2, value & (0xff ^ 0x04))
+    pins.i2cWriteBuffer(lcdState.i2cAddress, buf)
   }
 
   // Send high and low nibble
@@ -308,10 +307,18 @@ namespace makerbit {
     if (!lcdState) {
       return;
     }
-    const highnib = payload & 0xf0;
-    write4bits(highnib | lcdState.backlight | RS_bit);
-    const lownib = (payload << 4) & 0xf0;
-    write4bits(lownib | lcdState.backlight | RS_bit);
+
+    const highnib = (payload & 0xf0) | lcdState.backlight | RS_bit;
+    const lownib = ((payload << 4) & 0xf0) | lcdState.backlight | RS_bit;
+
+    const buf = pins.createBuffer(6 * pins.sizeOf(NumberFormat.Int8LE))
+    buf.setNumber(NumberFormat.Int8LE, 0, highnib)
+    buf.setNumber(NumberFormat.Int8LE, 1, highnib | 0x04)
+    buf.setNumber(NumberFormat.Int8LE, 2, highnib & (0xff ^ 0x04))
+    buf.setNumber(NumberFormat.Int8LE, 3, lownib)
+    buf.setNumber(NumberFormat.Int8LE, 4, lownib | 0x04)
+    buf.setNumber(NumberFormat.Int8LE, 5, lownib & (0xff ^ 0x04))
+    pins.i2cWriteBuffer(lcdState.i2cAddress, buf)
   }
 
   // Send command
