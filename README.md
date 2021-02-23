@@ -25,9 +25,9 @@ Displays with I2C address 39 or 63 will work automatically. Use connectLCD to ex
 
 ```blocks
 makerbit.setLcdBacklight(LcdBacklight.Off)
-makerbit.showStringOnLcd1602("MakerBit", 1, 9)
+makerbit.showStringOnLcd1602("MakerBit", makerbit.position1602(LcdPosition1602.Pos1), 9)
 basic.pause(2000)
-makerbit.clearLcd()
+makerbit.clearLcd1602()
 ```
 
 ### MakerBit showStringOnLcd1602
@@ -46,12 +46,20 @@ Displays a text on a LCD2004 in the given position range. The text will be cropp
 makerbit.showStringOnLcd2004("Hello world", 40, 59)
 ```
 
-### MakerBit clearLcd
+### MakerBit clearLcd1602
 
-Clears the LCD completely.
+Clears the LCD completely on a LCD1602.
 
 ```sig
-makerbit.clearLcd()
+makerbit.clearLcd1602()
+```
+
+### MakerBit clearLcd2004
+
+Clears the LCD completely on a LCD2004.
+
+```sig
+makerbit.clearLcd2004()
 ```
 
 ### MakerBit setLcdBacklight
