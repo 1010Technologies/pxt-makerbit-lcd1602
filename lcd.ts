@@ -427,6 +427,8 @@ namespace makerbit {
       }
       lcdPos++;
     }
+
+    basic.pause(0); // Allow refreshDisplay to run, even if called in a tight loop
   }
 
   function sendLineRepeated(line: number): void {
