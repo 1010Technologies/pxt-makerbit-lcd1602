@@ -275,15 +275,18 @@ namespace makerbit {
   }
 
   let lcdState: LcdState = undefined;
+  let oneByteBuffer: Buffer;
 
   function connect(): boolean {
-    let buf = control.createBuffer(1);
-    buf.setNumber(NumberFormat.UInt8LE, 0, 0);
+    if (!oneByteBuffer) {
+      oneByteBuffer = control.createBuffer(1);
+    }
+    oneByteBuffer.setNumber(NumberFormat.UInt8LE, 0, 0);
 
-    if (0 == pins.i2cWriteBuffer(39, buf, false)) {
+    if (0 == pins.i2cWriteBuffer(39, oneByteBuffer, false)) {
       // PCF8574
       connectLcd(39);
-    } else if (0 == pins.i2cWriteBuffer(63, buf, false)) {
+    } else if (0 == pins.i2cWriteBuffer(63, oneByteBuffer, false)) {
       // PCF8574A
       connectLcd(63);
     }
