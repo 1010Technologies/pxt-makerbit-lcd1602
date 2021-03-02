@@ -271,6 +271,7 @@ namespace makerbit {
     columns: uint8;
     lineNeedsUpdate: uint8;
     refreshIntervalId: number;
+    sendBuffer: Buffer;
   }
 
   let lcdState: LcdState = undefined;
@@ -290,16 +291,11 @@ namespace makerbit {
   }
 
   // Write 4 bits (high nibble) to I2C bus
-  function write4bits(i2cAddress: number, value: number, buffer: Buffer) {
-    if (buffer.length != 3) {
-      control.panic(233);
-    }
-
-    buffer.setNumber(NumberFormat.Int8LE, 0, value)
-    buffer.setNumber(NumberFormat.Int8LE, 1, value | 0x04)
-    buffer.setNumber(NumberFormat.Int8LE, 2, value & (0xff ^ 0x04))
-
-    pins.i2cWriteBuffer(i2cAddress, buffer)
+  function write4bits(i2cAddress: number, value: number, threeBytesBuffer: Buffer) {
+    threeBytesBuffer.setNumber(NumberFormat.Int8LE, 0, value)
+    threeBytesBuffer.setNumber(NumberFormat.Int8LE, 1, value | 0x04)
+    threeBytesBuffer.setNumber(NumberFormat.Int8LE, 2, value & (0xff ^ 0x04))
+    pins.i2cWriteBuffer(i2cAddress, threeBytesBuffer)
   }
 
   // Send high and low nibble
@@ -311,14 +307,13 @@ namespace makerbit {
     const highnib = (payload & 0xf0) | lcdState.backlight | RS_bit;
     const lownib = ((payload << 4) & 0xf0) | lcdState.backlight | RS_bit;
 
-    const buf = pins.createBuffer(6 * pins.sizeOf(NumberFormat.Int8LE))
-    buf.setNumber(NumberFormat.Int8LE, 0, highnib)
-    buf.setNumber(NumberFormat.Int8LE, 1, highnib | 0x04)
-    buf.setNumber(NumberFormat.Int8LE, 2, highnib & (0xff ^ 0x04))
-    buf.setNumber(NumberFormat.Int8LE, 3, lownib)
-    buf.setNumber(NumberFormat.Int8LE, 4, lownib | 0x04)
-    buf.setNumber(NumberFormat.Int8LE, 5, lownib & (0xff ^ 0x04))
-    pins.i2cWriteBuffer(lcdState.i2cAddress, buf)
+    lcdState.sendBuffer.setNumber(NumberFormat.Int8LE, 0, highnib)
+    lcdState.sendBuffer.setNumber(NumberFormat.Int8LE, 1, highnib | 0x04)
+    lcdState.sendBuffer.setNumber(NumberFormat.Int8LE, 2, highnib & (0xff ^ 0x04))
+    lcdState.sendBuffer.setNumber(NumberFormat.Int8LE, 3, lownib)
+    lcdState.sendBuffer.setNumber(NumberFormat.Int8LE, 4, lownib | 0x04)
+    lcdState.sendBuffer.setNumber(NumberFormat.Int8LE, 5, lownib & (0xff ^ 0x04))
+    pins.i2cWriteBuffer(lcdState.i2cAddress, lcdState.sendBuffer)
   }
 
   // Send command
@@ -633,6 +628,7 @@ namespace makerbit {
       characters: undefined,
       lineNeedsUpdate: 0,
       refreshIntervalId: undefined,
+      sendBuffer: pins.createBuffer(6 * pins.sizeOf(NumberFormat.Int8LE))
     };
 
     // Wait 50ms before sending first command to device after being powered on
