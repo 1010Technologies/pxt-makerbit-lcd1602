@@ -290,16 +290,16 @@ namespace makerbit {
   }
 
   // Write 4 bits (high nibble) to I2C bus
-  function write4bits(value: number) {
-    if (!lcdState) {
-      return;
+  function write4bits(i2cAddress: number, value: number, buffer: Buffer) {
+    if (buffer.length != 3) {
+      control.panic(233);
     }
 
-    const buf = pins.createBuffer(3 * pins.sizeOf(NumberFormat.Int8LE))
-    buf.setNumber(NumberFormat.Int8LE, 0, value)
-    buf.setNumber(NumberFormat.Int8LE, 1, value | 0x04)
-    buf.setNumber(NumberFormat.Int8LE, 2, value & (0xff ^ 0x04))
-    pins.i2cWriteBuffer(lcdState.i2cAddress, buf)
+    buffer.setNumber(NumberFormat.Int8LE, 0, value)
+    buffer.setNumber(NumberFormat.Int8LE, 1, value | 0x04)
+    buffer.setNumber(NumberFormat.Int8LE, 2, value & (0xff ^ 0x04))
+
+    pins.i2cWriteBuffer(i2cAddress, buffer)
   }
 
   // Send high and low nibble
@@ -647,13 +647,14 @@ namespace makerbit {
     basic.pause(50);
 
     // Set 4bit mode
-    write4bits(0x30);
+    const buf = pins.createBuffer(3 * pins.sizeOf(NumberFormat.Int8LE))
+    write4bits(i2cAddress, 0x30, buf);
     control.waitMicros(4100);
-    write4bits(0x30);
+    write4bits(i2cAddress, 0x30, buf);
     control.waitMicros(4100);
-    write4bits(0x30);
+    write4bits(i2cAddress, 0x30, buf);
     control.waitMicros(4100);
-    write4bits(0x20);
+    write4bits(i2cAddress, 0x20, buf);
     control.waitMicros(1000);
 
     // Configure function set
