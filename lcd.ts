@@ -270,7 +270,7 @@ namespace makerbit {
     rows: uint8;
     columns: uint8;
     lineNeedsUpdate: uint8;
-    refreshIntervalId: number;
+    refreshJobId: number;
   }
 
   let lcdState: LcdState = undefined;
@@ -345,8 +345,8 @@ namespace makerbit {
       return;
     }
 
-    if (!lcdState.refreshIntervalId) {
-      lcdState.refreshIntervalId = control.setInterval(refreshDisplay, 500, control.IntervalMode.Timeout)
+    if (!lcdState.refreshJobId) {
+      lcdState.refreshJobId = background.schedule(refreshDisplay, 400, background.Mode.Once);
     }
 
     if (lcdState.columns === 0) {
@@ -438,7 +438,7 @@ namespace makerbit {
     if (!lcdState) {
       return;
     }
-    lcdState.refreshIntervalId = undefined
+    lcdState.refreshJobId = undefined
 
     for (let i = 0; i < lcdState.rows; i++) {
       if (lcdState.lineNeedsUpdate & 1 << i) {
@@ -615,9 +615,9 @@ namespace makerbit {
       return;
     }
 
-    if (lcdState && lcdState.refreshIntervalId) {
-      control.clearInterval(lcdState.refreshIntervalId, control.IntervalMode.Timeout)
-      lcdState.refreshIntervalId = undefined
+    if (lcdState && lcdState.refreshJobId) {
+      background.remove(lcdState.refreshJobId);
+      lcdState.refreshJobId = undefined
     }
 
     lcdState = {
@@ -627,7 +627,7 @@ namespace makerbit {
       rows: 0,
       characters: undefined,
       lineNeedsUpdate: 0,
-      refreshIntervalId: undefined,
+      refreshJobId: undefined,
     };
 
     // Wait 50ms before sending first command to device after being powered on
