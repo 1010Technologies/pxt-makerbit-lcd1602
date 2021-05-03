@@ -4,8 +4,7 @@
     "description": "MakeCode extension for I2C LCD 1602 displays",
     "license": "MIT",
     "dependencies": {
-        "core": "*",
-        "background": "github:1010Technologies/pxt-makerbit-background#v0.0.6"
+        "core": "*"
     },
     "files": [
         "namespace.ts",
