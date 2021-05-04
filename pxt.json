@@ -4,12 +4,13 @@
     "description": "MakeCode extension for I2C LCD 1602 displays",
     "license": "MIT",
     "dependencies": {
-        "core": "*"
+        "core": "*",
+        "lcd-core": "github:1010Technologies/pxt-makerbit-lcd-core#v0.0.4"
     },
     "files": [
         "namespace.ts",
         "README.md",
-        "lcd.ts",
+        "lcd1602.ts",
         "_locales/de/MakerBit-LCD1602-strings.json"
     ],
     "testFiles": [
