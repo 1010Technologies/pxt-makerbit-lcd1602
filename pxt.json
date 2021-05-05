@@ -5,7 +5,7 @@
     "license": "MIT",
     "dependencies": {
         "core": "*",
-        "lcd-core": "github:1010Technologies/pxt-makerbit-lcd-core#v0.0.4"
+        "MakerBit-LCD-core": "github:1010Technologies/pxt-makerbit-lcd-core#v0.0.5"
     },
     "files": [
         "namespace.ts",
