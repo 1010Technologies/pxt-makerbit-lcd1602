@@ -67,6 +67,8 @@ const enum LcdPosition1602 {
   Pos32 = 32
 }
 
+//% color=#0fbc11 icon="\u272a" block="MakerBit"
+//% category="MakerBit"
 namespace makerbit {
 
   /**
