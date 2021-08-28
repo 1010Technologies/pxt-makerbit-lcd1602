@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.com/1010Technologies/pxt-makerbit-lcd1602.svg?branch=master)](https://travis-ci.com/1010Technologies/pxt-makerbit-lcd1602)
 
+![MakerBit](https://github.com/1010Technologies/pxt-makerbit-lcd1602/raw/master/icon.png "MakerBit LCD1602")
+
 MakeCode extension for an I2C LCD 1602 displays.
 
 ## MakerBit Board
