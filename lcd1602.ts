@@ -67,25 +67,6 @@ const enum LcdPosition1602 {
   Pos32 = 32
 }
 
-const enum LcdChar {
-  //% block="1"
-  c1 = 0,
-  //% block="2"
-  c2 = 1,
-  //% block="3"
-  c3 = 2,
-  //% block="4"
-  c4 = 3,
-  //% block="5"
-  c5 = 4,
-  //% block="6"
-  c6 = 5,
-  //% block="7"
-  c7 = 6,
-  //% block="8"
-  c8 = 7
-}
-
 //% color=#0fbc11 icon="\u272a" block="MakerBit"
 //% category="MakerBit"
 namespace makerbit {
@@ -149,61 +130,14 @@ namespace makerbit {
   }
 
   /**
-   * Create a custom LCD character using a 5x8 pixel matrix.
+   * Display a custom character at a specified LCD position.
    */
   //% subcategory="LCD"
-  //% blockId="makerbit_lcd_makecustomchar"
-  //% block="make custom character %char|%im"
-  //% weight=60
-  export function lcdMakeCustomChar(char: LcdChar, im: Image): void {
-    const customChar = [0, 0, 0, 0, 0, 0, 0, 0];
-    for(let y = 0; y < 8; y++) {
-      for(let x = 0; x < 5; x++) {
-        if (im.pixel(x, y)) {
-          customChar[y] |= 1 << (4 - x)
-        }
-      }
-    }
-    const LCD_SETCGRAMADDR = 0x40;
-    sendCommand(LCD_SETCGRAMADDR | (char << 3));
-    for (let y = 0; y < 8; y++) {
-      sendData(customChar[y]);
-    }
-    control.waitMicros(1000);
+  //% blockId="makerbit_lcd_showcustomchar"
+  //% block="LCD1602 show custom character %char|at position %position=makerbit_lcd_position_1602"
+  //% weight=58
+  export function lcdShowCustomChar(char: LcdChar, position: number): void {
+    setCharacter(char, position - 1, 16, 2);
   }
-
-  /**
-   * Create a 5x8 pixel matrix for use as a custom character.
-   */
-  //% subcategory="LCD"
-  //% blockId="makerbit_lcd_customchar"
-  //% block="pixels"
-  //% imageLiteral=1
-  //% imageLiteralColumns=5
-  //% imageLiteralRows=8
-  //% imageLiteralScale=0.6
-  //% shim=images::createImage
-  //% weight=59
-  export function lcdCustomChar(i: string): Image {
-      return <Image><any>i;
-  }
-
-  // /**
-  //  * Display a custom character at a specified LCD position.
-  //  */
-  // //% subcategory="LCD"
-  // //% blockId="makerbit_lcd_showcustomchar"
-  // //% block="show custom character %char at position %position=makerbit_lcd_position_1602"
-  // //% weight=58
-  // export function lcdShowCustomChar(char: LcdChar, position: number): void {
-  //   if (!lcdState) {
-  //       return;
-  //   }
-  //   if (lcdState.columns === 0) {
-  //     clearLcd1602();
-  //       control.waitMicros(1000);
-  //   }
-  //   lcdState.characters[position - 1] = char;
-  // }
 
 }
