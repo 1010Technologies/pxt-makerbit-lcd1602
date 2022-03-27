@@ -148,45 +148,45 @@ namespace makerbit {
     return pos;
   }
 
-  // /**
-  //  * Create a custom LCD character using a 5x8 pixel matrix.
-  //  */
-  // //% subcategory="LCD"
-  // //% blockId="makerbit_lcd_makecustomchar"
-  // //% block="make custom character %char|%im"
-  // //% weight=60
-  // export function lcdMakeCustomChar(char: LcdChar, im: Image): void {
-  //   const customChar = [0, 0, 0, 0, 0, 0, 0, 0];
-  //   for(let y = 0; y < 8; y++) {
-  //     for(let x = 0; x < 5; x++) {
-  //       if (im.pixel(x, y)) {
-  //         customChar[y] |= 1 << (4 - x)
-  //       }
-  //     }
-  //   }
-  //   const LCD_SETCGRAMADDR = 0x40;
-  //   sendCommand(LCD_SETCGRAMADDR | (char << 3));
-  //   for (let y = 0; y < 8; y++) {
-  //     sendData(customChar[y]);
-  //   }
-  //   control.waitMicros(1000);
-  // }
+  /**
+   * Create a custom LCD character using a 5x8 pixel matrix.
+   */
+  //% subcategory="LCD"
+  //% blockId="makerbit_lcd_makecustomchar"
+  //% block="make custom character %char|%im"
+  //% weight=60
+  export function lcdMakeCustomChar(char: LcdChar, im: Image): void {
+    const customChar = [0, 0, 0, 0, 0, 0, 0, 0];
+    for(let y = 0; y < 8; y++) {
+      for(let x = 0; x < 5; x++) {
+        if (im.pixel(x, y)) {
+          customChar[y] |= 1 << (4 - x)
+        }
+      }
+    }
+    const LCD_SETCGRAMADDR = 0x40;
+    sendCommand(LCD_SETCGRAMADDR | (char << 3));
+    for (let y = 0; y < 8; y++) {
+      sendData(customChar[y]);
+    }
+    control.waitMicros(1000);
+  }
 
-  // /**
-  //  * Create a 5x8 pixel matrix for use as a custom character.
-  //  */
-  // //% subcategory="LCD"
-  // //% blockId="makerbit_lcd_customchar"
-  // //% block="pixels"
-  // //% imageLiteral=1
-  // //% imageLiteralColumns=5
-  // //% imageLiteralRows=8
-  // //% imageLiteralScale=0.6
-  // //% shim=images::createImage
-  // //% weight=59
-  // export function lcdCustomChar(i: string): Image {
-  //     return <Image><any>i;
-  // }
+  /**
+   * Create a 5x8 pixel matrix for use as a custom character.
+   */
+  //% subcategory="LCD"
+  //% blockId="makerbit_lcd_customchar"
+  //% block="pixels"
+  //% imageLiteral=1
+  //% imageLiteralColumns=5
+  //% imageLiteralRows=8
+  //% imageLiteralScale=0.6
+  //% shim=images::createImage
+  //% weight=59
+  export function lcdCustomChar(i: string): Image {
+      return <Image><any>i;
+  }
 
   // /**
   //  * Display a custom character at a specified LCD position.
