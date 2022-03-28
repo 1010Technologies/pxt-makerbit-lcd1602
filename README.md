@@ -72,28 +72,28 @@ Returns true if a LCD is connected. False otherwise.
 makerbit.isLcdConnected()
 ```
 
-### MakerBit lcdMakeCustomChar
+### MakerBit lcdMakeCharacter
 
 Create a custom LCD character using a 5x8 pixel matrix.
 
 ```sig
-makerbit.lcdMakeCustomChar(LcdChar.c1, image)
+makerbit.lcdMakeCharacter(LcdChar.c1, image)
 ```
 
-### MakerBit lcdCustomChar
+### MakerBit lcdCharacterPixels
 
 Returns a 5x8 pixel matrix for use as a custom character.
 
 ```sig
-image = makerbit.lcdCustomChar()
+image = makerbit.lcdCharacterPixels()
 ```
 
-### MakerBit lcdShowCustomChar
+### MakerBit lcdShowCharacter1602
 
 Display a custom character at a specified LCD position.
 
 ```sig
-makerbit.lcdShowCustomChar(LcdChar.c1, 1)
+makerbit.lcdShowCharacter1602(LcdChar.c1, 1)
 ```
 
 ## License

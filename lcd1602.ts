@@ -133,10 +133,10 @@ namespace makerbit {
    * Display a custom character at a specified LCD position.
    */
   //% subcategory="LCD"
-  //% blockId="makerbit_lcd_showcustomchar"
-  //% block="LCD1602 show custom character %char|at position %position=makerbit_lcd_position_1602"
+  //% blockId="makerbit_lcd_showchararacter1602"
+  //% block="LCD1602 show character %char|at position %position=makerbit_lcd_position_1602"
   //% weight=58
-  export function lcdShowCustomChar(char: LcdChar, position: number): void {
+  export function lcdShowCharacter1602(char: LcdChar, position: number): void {
     setCharacter(char, position - 1, 16, 2);
   }
 
