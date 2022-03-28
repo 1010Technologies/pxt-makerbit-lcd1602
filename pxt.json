@@ -1,11 +1,11 @@
 {
     "name": "MakerBit-LCD1602",
-    "version": "1.8.0",
+    "version": "1.8.1",
     "description": "MakeCode extension for I2C LCD 1602 displays",
     "license": "MIT",
     "dependencies": {
         "core": "*",
-        "MakerBit-LCD-core": "github:1010Technologies/pxt-makerbit-lcd-core#v1.2.0"
+        "MakerBit-LCD-core": "github:1010Technologies/pxt-makerbit-lcd-core#v1.2.1"
     },
     "files": [
         "README.md",
