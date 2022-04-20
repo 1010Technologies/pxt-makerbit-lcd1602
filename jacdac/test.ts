@@ -1,1 +1,4 @@
-// tests go here; this will not be compiled when this package is used as an extension.
+forever(() => {
+    modules.makerbitLCD.setLine(0, "time: " + control.millis())
+    pause(100)
+})

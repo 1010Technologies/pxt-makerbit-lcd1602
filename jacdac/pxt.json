@@ -1,13 +1,14 @@
 {
-    "name": "makerbit-lcd1602-jacdac",
+    "name": "jacdac-makerbit-lcd1602",
     "dependencies": {
         "core": "*",
         "radio": "*",
         "microphone": "*",
-        "pxt-makerbit-lcd1602": "github:pelikhan/pxt-makerbit-lcd1602"
+        "pxt-makerbit-lcd1602": "github:pelikhan/pxt-makerbit-lcd1602",
+        "jacdac": "github:microsoft/pxt-jacdac#v0.9.8",
+        "jacdac-character-screen": "github:microsoft/pxt-jacdac/character-screen#v0.9.8"
     },
     "files": [
-        "main.blocks",
         "main.ts",
         "README.md"
     ],
@@ -21,5 +22,5 @@
     "supportedTargets": [
         "microbit"
     ],
-    "preferredEditor": "blocksprj"
+    "preferredEditor": "tsprj"
 }
