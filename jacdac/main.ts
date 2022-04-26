@@ -8,7 +8,7 @@ namespace modules {
      * makerbit LCD screen
      */
     //% fixedInstance whenUsed block="makerbit LCD"
-    export const makerbitLCD = new CharacterScreenClient("makerbit LCD?device=self")
+    export const makerbitLCD = new CharacterScreenClient("makerbit LCD?dev=self&rows=2&columns=16")
 }
 
 namespace servers {

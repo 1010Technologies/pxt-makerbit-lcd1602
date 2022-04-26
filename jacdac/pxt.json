@@ -1,13 +1,13 @@
 {
-    "name": "jacdac-makerbit-lcd1602",
+    "name": "makerbit-lcd1602-jacdac",
     "version": "1.8.3",
     "dependencies": {
         "core": "*",
         "radio": "*",
         "microphone": "*",
         "pxt-makerbit-lcd1602": "github:pelikhan/pxt-makerbit-lcd1602",
-        "jacdac": "github:microsoft/pxt-jacdac#v0.9.8",
-        "jacdac-character-screen": "github:microsoft/pxt-jacdac/character-screen#v0.9.8"
+        "jacdac": "github:microsoft/pxt-jacdac#v0.10.3",
+        "jacdac-character-screen": "github:microsoft/pxt-jacdac/character-screen#v0.10.3"
     },
     "files": [
         "main.ts",
@@ -17,7 +17,7 @@
         "test.ts"
     ],
     "targetVersions": {
-        "target": "4.1.22",
+        "target": "4.1.24",
         "targetId": "microbit"
     },
     "supportedTargets": [
