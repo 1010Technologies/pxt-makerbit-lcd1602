@@ -8,7 +8,7 @@ namespace modules {
      * makerbit LCD screen
      */
     //% fixedInstance whenUsed block="makerbit LCD"
-    export const makerbitLCD = new CharacterScreenClient("makerbit LCD?dev=self&rows=2&columns=16")
+    export const makerbitLCD = new CharacterScreenClient("makerbit LCD?dev=self&rows=2&columns=16&variant=LCD")
 }
 
 namespace servers {
@@ -56,6 +56,7 @@ namespace servers {
     }
     function start() {
         jacdac.productIdentifier = 0x3a16c332
+        jacdac.deviceDescription = "MakerBit LCD"
         jacdac.startSelfServers(() => [
             new CharacterScreenServer()
         ])
