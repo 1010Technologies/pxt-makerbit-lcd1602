@@ -6,8 +6,8 @@
         "radio": "*",
         "microphone": "*",
         "pxt-makerbit-lcd1602": "github:pelikhan/pxt-makerbit-lcd1602",
-        "jacdac": "github:microsoft/pxt-jacdac#v0.10.23",
-        "jacdac-character-screen": "github:microsoft/pxt-jacdac/character-screen#v0.10.23"
+        "jacdac": "github:microsoft/pxt-jacdac#v0.10.27",
+        "jacdac-character-screen": "github:microsoft/pxt-jacdac/character-screen#v0.10.27"
     },
     "files": [
         "main.ts",
