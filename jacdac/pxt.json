@@ -1,6 +1,6 @@
 {
     "name": "makerbit-lcd1602-jacdac",
-    "version": "1.8.9",
+    "version": "1.8.10",
     "dependencies": {
         "core": "*",
         "radio": "*",
